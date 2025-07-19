@@ -1,0 +1,12 @@
+{
+  "_id": "ObjectId",
+  "projectId": "ObjectId (ref: 'Project', required, indexed)",
+  "title": "String (required)",
+  "description": "String",
+  "status": "String (enum: ['To Do', 'In Progress', 'Done'])",
+  "priority": "String (enum: ['Low', 'Medium', 'High'])",
+  "dueDate": "Date",
+  "assigneeId": "ObjectId (ref: 'User', optional)",
+  "reporterId": "ObjectId (ref: 'User', required)",
+  "createdAt": "Date (default: Now)"
+}

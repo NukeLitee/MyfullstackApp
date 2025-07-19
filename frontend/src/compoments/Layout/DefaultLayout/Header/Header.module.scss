@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+
+
+
+.wrapper{
+  height: 134px;
+  width: 100%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+.headerRight{
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-right: 3rem;
+}
+.logo{
+  display: flex;
+  align-items: center;
+  font-family: 'Comic neue', cursive;
+  font-weight: bold;
+  font-size: 40px;
+  margin-left: 3rem;
+  img{
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+  }
+  p {
+    padding-left: 10px;
+    span{
+      color: #05732C;
+    }
+  }
+}
+.inner{
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(to right, #FFFFFF 1%, #C6FFCC 99%);
+  display: flex;
+  justify-content: space-between;
+}
+.list {
+  font-size: 25px;
+  font-weight: bold;
+  font-family: "Comfortaa", sans-serif;
+  display: flex; /* <-- Thêm dòng này */
+  align-items: center; /* (Tùy chọn) Căn các mục theo chiều dọc */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 32px; /* (Tùy chọn) Tạo khoảng cách giữa các mục */
+}
+.list-item {
+  position: relative; // Cần thiết để định vị menu con
+  padding: 10px;
+  cursor: pointer;
+}
+
+.list-item {
+  position: relative;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px; // Khoảng cách giữa chữ và icon mũi tên
+
+  &:hover .dropdown-menu {
+    display: block;
+  }
+}
+
+.arrow-icon {
+  font-size: 16px;
+}
+
+// Cập nhật lại style cho dropdown menu
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%); // Căn giữa menu
+  background-color: #f0fdf4;
+  border-radius: 12px;
+  padding: 8px;
+  list-style: none;
+  width: 240px;
+  border: 1px solid #e0f8e9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.2s ease-in-out;
+  z-index: 10; // Đảm bảo menu nằm trên các phần tử khác
+}
+
+// Class mới cho từng mục trong menu có icon
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: sans-serif; // Dùng font khác cho dễ đọc
+  font-weight: 500;
+  color: #333;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #e0f8e9;
+  }
+}
+
+// Class mới cho icon
+.icon {
+  font-size: 16px;
+  color: #555;
+  width: 20px;
+  margin-right: 12px;
+  text-align: center;
+}
+
+
+.headerButton{
+}
+.SignInButton{
+    font-family: "Comfortaa", sans-serif;
+    color: #ffffff;
+    padding: 8px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color:#05732C;
+    transition: all 0.2s ease;
+  &:hover{
+    opacity: 0.8;
+  }
+}
+.LoginButton{
+  font-size: 25px;
+  padding: 8px 30px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  background: none;
+  border: none;
+  font-family: "Comfortaa", sans-serif;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
