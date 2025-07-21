@@ -1,5 +1,152 @@
+
+// Biến màu và kích thước
+$bg-color: #f0fdf4;
+$active-bg-color: #dcfce7;
+$hover-bg-color: #e9fbec;
+$active-border-color: #22c55e;
+$text-color: #3f3f46;
+$icon-color: #52525b;
+$sidebar-width: 280px;
+
+
+
 .wrapper {
-  width: 480px;
-  min-height: 1000px;
-  background-color: #C6FFCC;
+  background-color: $bg-color;
+  width: $sidebar-width;
+  height: 100vh;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #e5e7eb;
+  box-sizing: border-box;
+}
+
+.main-content {
+  flex-grow: 1;
+  font-family: "Comfortaa", sans-serif;
+}
+
+// User Menu
+.user-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 16px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.user-avatar {
+  background-color: #d1d5db;
+  border-radius: 50%;
+  padding: 6px;
+  font-size: 14px;
+}
+
+.arrow-icon {
+  font-size: 12px;
+}
+
+.user-actions {
+  display: flex;
+  gap: 16px;
+  color: $icon-color;
+  cursor: pointer;
+}
+
+// Navigation lists
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: $text-color;
+  transition: background-color 0.2s ease;
+  font-weight: 500;
+  margin-bottom: 4px;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $hover-bg-color;
+  }
+
+  &.active {
+    background-color: $active-bg-color;
+    font-weight: 600;
+    position: relative;
+
+    // Đường kẻ xanh bên trái
+    &::before {
+      content: '';
+      position: absolute;
+      left: -16px; // Đặt bên ngoài padding của wrapper
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background-color: $active-border-color;
+      border-radius: 0 4px 4px 0;
+    }
+  }
+}
+
+.icon {
+  width: 20px;
+  margin-right: 12px;
+  color: $icon-color;
+  text-align: center;
+  font-size: 16px;
+}
+
+// Sections (Projects, Teams)
+.section {
+  margin-bottom: 16px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  color: $text-color;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.section-actions {
+  display: flex;
+  gap: 16px;
+  color: $icon-color;
+  cursor: pointer;
+}
+
+.project-item {
+  padding-left: 12px;
+  font-weight: 400;
+}
+
+
+// Help Section
+.help-section {
+  margin-top: auto; // Đẩy xuống dưới cùng
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: $text-color;
+  font-weight: 500;
 }

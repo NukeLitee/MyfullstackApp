@@ -1,6 +1,6 @@
 import React from 'react';
 
-function FollowingPage(props) {
+function UpComing(props) {
     return (
         <div>
             <h1>Following Page</h1>
@@ -8,4 +8,4 @@ function FollowingPage(props) {
     );
 }
 
-export default FollowingPage;
+export default UpComing;

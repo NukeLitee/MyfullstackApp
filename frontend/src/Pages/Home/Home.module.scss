@@ -1,0 +1,98 @@
+// Biến màu
+@import url('https://fonts.googleapis.com/css2?family=Coiny&family=Comfortaa:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
+
+$primary-color: #158463;
+$text-color: #1f2937;
+$secondary-text-color: #6b7280;
+$light-green-bg: #f0fdf4;
+$button-green: #22c55e;
+
+
+.wrapper {
+  flex: 1; // Chiếm hết không gian còn lại
+  padding: 40px 60px;
+  font-family: sans-serif;
+  background-color: #ffffff;
+}
+h1{font-family: 'Coiny', cursive;}
+// Header
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 80px;
+}
+
+.title {
+  font-size: 36px;
+  font-weight: bold;
+  color: $text-color;
+  margin: 0;
+}
+
+.view-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: $light-green-bg;
+  border: 1px solid #dcfce7;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+
+  .icon {
+    color: $secondary-text-color;
+  }
+}
+
+// Empty State
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0 auto;
+  max-width: 450px;
+}
+
+.illustration {
+  width: 200px;
+  height: auto;
+  margin-bottom: 24px;
+}
+
+.empty-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: $text-color;
+  margin: 0 0 8px 0;
+}
+
+.empty-description {
+  font-size: 16px;
+  color: $secondary-text-color;
+  line-height: 1.5;
+  margin: 0 0 24px 0;
+}
+
+.add-task-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: $button-green;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}

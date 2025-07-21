@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 
 // 1. Import thêm các icon cần thiết
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faCheckCircle, faListAlt, faClock, faChartLine, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faCheckCircle,faUsersBetweenLines, faListAlt, faClock, faChartLine, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
@@ -59,6 +59,7 @@ function Header() {
                             </li>
                         </ul>
                     </div>
+                    <span className={cx('lineBetween')}></span>
                     <div className={cx('headerButton')}>
                         <button className={cx('LoginButton')}>Đăng Nhập</button>
                         <button className={cx('SignInButton')}>Đăng Ký</button>

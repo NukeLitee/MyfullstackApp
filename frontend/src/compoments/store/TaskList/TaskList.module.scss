@@ -1,0 +1,21 @@
+.task-item {
+  // Thêm display: flex để căn chỉnh nút
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // ... các style khác
+}
+
+.delete-btn {
+  background-color: #fee2e2;
+  color: #ef4444;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+
+  &:hover {
+    background-color: #fecaca;
+  }
+}
