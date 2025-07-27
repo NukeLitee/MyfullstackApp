@@ -1,6 +1,6 @@
 {
-  "homepage": "nukelitee.github.io/MyfullstackApp",
   "name": "frontend",
+  "homepage": "nukelitee.github.io/MyfullstackApp",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
