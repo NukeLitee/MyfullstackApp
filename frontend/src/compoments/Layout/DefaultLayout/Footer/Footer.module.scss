@@ -1,0 +1,78 @@
+// Biến màu
+$bg-color: #dcfce7;
+$text-primary: #1f2937;
+$text-secondary: #4b5563;
+
+.wrapper {
+  background-color: $bg-color;
+  padding: 60px 40px;
+  font-family: Comfortaa;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 80px;
+}
+
+.info-column {
+  flex: 2;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-family: 'Comic neue', cursive;
+  font-weight: bold;
+  font-size: 30px;
+  img{
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+  p {
+    padding-left: 10px;
+    span{
+      color: #05732C;
+    }
+  }
+}
+
+.info-column p {
+  color: $text-secondary;
+  line-height: 1.6;
+  max-width: 300px;
+}
+
+.links-column {
+  flex: 1;
+
+  h4 {
+    font-size: 30px;
+    font-weight: bold;
+    color: $text-primary;
+    margin: 0 0 16px 0;
+    font-family: Coiny;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    margin-bottom: 12px;
+  }
+
+  a {
+    text-decoration: none;
+    color: $text-secondary;
+    font-size: 16px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

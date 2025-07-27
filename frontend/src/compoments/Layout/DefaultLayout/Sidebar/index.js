@@ -101,7 +101,7 @@ function Sidebar() {
                                 <FontAwesomeIcon icon={faCalendarDay} className={cx('icon')} />
                                 <span>Today</span>
                             </NavLink>
-                            <NavLink to="/upcoming" className={({ isActive }) => cx('nav-item', { active: isActive })}>
+                            <NavLink to="/upcomingpage" className={({ isActive }) => cx('nav-item', { active: isActive })}>
                                 <FontAwesomeIcon icon={faCalendarAlt} className={cx('icon')} />
                                 <span>Upcoming</span>
                             </NavLink>

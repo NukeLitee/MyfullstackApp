@@ -1,6 +1,7 @@
 import styles from './Header.module.scss';
 import nukeLogo from './NukeLogo.png';
 import classNames from 'classnames/bind';
+import { Link } from 'react-router-dom';
 
 // 1. Import thêm các icon cần thiết
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -61,8 +62,13 @@ function Header() {
                     </div>
                     <span className={cx('lineBetween')}></span>
                     <div className={cx('headerButton')}>
-                        <button className={cx('LoginButton')}>Đăng Nhập</button>
-                        <button className={cx('SignInButton')}>Đăng Ký</button>
+                        <Link to="/LoginPage">
+                            <button className={cx('LoginButton')}>Đăng Nhập</button>
+                        </Link>
+                        {/* 3. Bọc nút Đăng Ký trong thẻ Link */}
+                        <Link to="/RegisterPage">
+                            <button className={cx('SignInButton')}>Đăng Ký</button>
+                        </Link>
                     </div>
 
                 </div>

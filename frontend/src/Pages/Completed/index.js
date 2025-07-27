@@ -2,38 +2,33 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import axios from 'axios';
 
-import styles from './UpComingPage.module.scss';
-// 1. Sửa lại import
+import styles from './Completed.module.scss';
 import TaskList from '../../compoments/store/TaskList';
 
 const cx = classNames.bind(styles);
 const API_URL = 'http://localhost:5000/api/tasks';
 
-function UpcomingPage() {
-    // Chỉ cần một state để lưu danh sách task
-    const [upcomingTasks, setUpcomingTasks] = useState([]);
+function Completed() {
+    const [completedTasks, setCompletedTasks] = useState([]);
 
     useEffect(() => {
-        const fetchUpcomingTasks = async () => {
+        const fetchCompletedTasks = async () => {
             try {
-                const response = await axios.get(`${API_URL}/upcoming`);
-                setUpcomingTasks(response.data);
+                const response = await axios.get(`${API_URL}/completed`);
+                setCompletedTasks(response.data);
             } catch (error) {
-                console.error("Lỗi khi lấy dữ liệu tasks sắp tới:", error);
+                console.error("Lỗi khi lấy dữ liệu tasks đã hoàn thành:", error);
             }
         };
-        fetchUpcomingTasks();
+        fetchCompletedTasks();
     }, []);
 
     const handleToggleTask = async (taskId) => {
+        // Logic này sẽ "hoàn tác" một task, chuyển nó về chưa hoàn thành
         try {
-            const response = await axios.patch(`${API_URL}/${taskId}/toggle`);
-            const updatedTask = response.data;
-            setUpcomingTasks(prevTasks =>
-                prevTasks.map(task =>
-                    task._id === taskId ? { ...task, completed: updatedTask.completed } : task
-                )
-            );
+            await axios.patch(`${API_URL}/${taskId}/toggle`);
+            // Xóa task khỏi danh sách đã hoàn thành trên UI
+            setCompletedTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
         } catch (error) {
             console.error('Lỗi khi cập nhật trạng thái task:', error);
         }
@@ -42,7 +37,7 @@ function UpcomingPage() {
     const handleDeleteTask = async (taskId) => {
         try {
             await axios.delete(`${API_URL}/${taskId}`);
-            setUpcomingTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
+            setCompletedTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
         } catch (error) {
             console.error('Lỗi khi xóa task:', error);
         }
@@ -51,13 +46,12 @@ function UpcomingPage() {
     return (
         <main className={cx('wrapper')}>
             <header className={cx('header')}>
-                <h1 className={cx('title')}>Sắp tới</h1>
+                <h1 className={cx('title')}>Đã hoàn thành</h1>
             </header>
 
-            {/* 2. Render trực tiếp component TaskList */}
             <div className={cx('task-container')}>
                 <TaskList
-                    tasks={upcomingTasks}
+                    tasks={completedTasks}
                     onToggle={handleToggleTask}
                     onDelete={handleDeleteTask}
                 />
@@ -66,4 +60,4 @@ function UpcomingPage() {
     );
 }
 
-export default UpcomingPage;
+export default Completed;

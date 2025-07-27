@@ -1,29 +1,75 @@
-// TaskList.jsx
 import React from 'react';
-import styles from './TaskList.module.scss';
 import classNames from 'classnames/bind';
+import { Circle, CheckCircle, Calendar } from 'lucide-react';
+import { format, isToday, isPast, parseISO } from 'date-fns';
+import vi from 'date-fns/locale/vi';
+import styles from './TaskList.module.scss';
 
 const cx = classNames.bind(styles);
 
-// Cập nhật: Component giờ sẽ nhận thêm prop onDelete
-function TaskList({ tasks, onDelete }) {
+function TaskList({ tasks, onDelete, onToggle }) {
+    const formatDueDate = (dueDate) => {
+        if (!dueDate) return null;
+        const parsedDate = typeof dueDate === 'string' ? parseISO(dueDate) : new Date(dueDate);
+
+        if (isToday(parsedDate)) {
+            return {
+                text: `Hôm nay, ${format(parsedDate, 'HH:mm', { locale: vi })}`,
+                statusClass: 'today'
+            };
+        } else if (isPast(parsedDate)) {
+            return {
+                text: `Quá hạn: ${format(parsedDate, 'dd/MM/yyyy HH:mm', { locale: vi })}`,
+                statusClass: 'overdue'
+            };
+        } else {
+            return {
+                text: format(parsedDate, 'EEEE, dd/MM/yyyy HH:mm', { locale: vi }),
+                statusClass: 'upcoming'
+            };
+        }
+    };
+
     return (
         <div className={cx('task-list')}>
-            {tasks.map((task) => (
-                <div key={task._id} className={cx('task-item')}>
-                    <div className={cx('task-content')}>
-                        <h5 className={cx('task-title')}>{task.title}</h5>
-                        {task.description && <p className={cx('task-desc')}>{task.description}</p>}
+            {tasks.map((task) => {
+                const dueInfo = formatDueDate(task.dueDate);
+
+                return (
+                    <div key={task._id} className={cx('task-item', { completed: task.completed })}>
+                        <button
+                            className={cx('task-checkbox')}
+                            onClick={() => onToggle(task._id)}
+                        >
+                            {task.completed
+                                ? <CheckCircle size={20} className={cx('check-icon', 'completed')} />
+                                : <Circle size={20} className={cx('check-icon')} />
+                            }
+                        </button>
+
+                        <div className={cx('task-content')}>
+                            <h5 className={cx('task-title')}>{task.title}</h5>
+                            {task.description && (
+                                <p className={cx('task-desc')}>{task.description}</p>
+                            )}
+                            {dueInfo && (
+                                <div className={cx('task-details')}>
+                                    <span className={cx('due-date', dueInfo.statusClass)}>
+                                        <Calendar size={14} className={cx('calendar-icon')} />
+                                        {dueInfo.text}
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+                        <button
+                            className={cx('delete-btn')}
+                            onClick={() => onDelete(task._id)}
+                        >
+                            Xóa
+                        </button>
                     </div>
-                    {/* THÊM NÚT XÓA */}
-                    <button
-                        className={cx('delete-btn')}
-                        onClick={() => onDelete(task._id)}
-                    >
-                        Xóa
-                    </button>
-                </div>
-            ))}
+                );
+            })}
         </div>
     );
 }

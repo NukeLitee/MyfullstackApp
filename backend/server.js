@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 // Middlewares
 app.use(cors({
     origin: 'http://localhost:3000', // Địa chỉ frontend của bạn
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Phải có 'DELETE'
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Phải có 'DELETE'
 }));
 app.use(express.json());
 
@@ -24,6 +24,9 @@ mongoose.connect(MONGO_URI)
 const taskRoutes = require('./routes/task.routes');
 
 const projectRoutes = require('./routes/project.routes');
+
+const authRoutes = require('./routes/auth.routes');
+app.use('/api/auth', authRoutes); // Thêm dòng này
 app.use('/api/projects', projectRoutes);
 // Sử dụng Routes
 // Đây là dòng quan trọng nhất để sửa lỗi "Cannot GET /api/tasks"

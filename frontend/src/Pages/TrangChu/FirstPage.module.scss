@@ -1,0 +1,199 @@
+// Biến màu và font
+$text-primary: #1f2937;
+$text-secondary: #4b5563;
+$button-bg: #16a34a;
+$accent-color: #05732C;
+$font-main: 'Helvetica Neue', 'Arial', sans-serif;
+
+.wrapper {
+  font-family: $font-main;
+}
+
+// --- HERO SECTION STYLES ---
+.wrapper-First {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 80px;
+  min-height: 82vh;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+// Class mới cho hình nền
+.hero-bg {
+  // Đường dẫn đến hình ảnh, giả sử file SCSS nằm trong src/pages/FirstPage/
+  background-image: url('../../assets/fristpagebg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.wrapper-left {
+  max-width: 500px;
+  h1 {
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: $text-primary;
+    margin: 0 0 24px 0;
+  }
+  p {
+    font-size: 18px;
+    color: $text-secondary;
+    line-height: 1.6;
+    margin: 0 0 32px 0;
+  }
+  img {
+    max-width: 300px;
+    height: auto;
+    margin-bottom: 32px;
+  }
+}
+
+.bussinessUp {
+  background-color: $button-bg;
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.wrapper-right {
+  width: 500px;
+  height: 350px;
+  background-color: #e5e7eb;
+  border-radius: 20px;
+}
+
+// --- STICKY SECTION STYLES ---
+.sticky-container {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  max-width: 1000px;
+  margin: 120px auto;
+}
+
+.scrolling-text {
+  flex: 1;
+  max-width: 450px;
+}
+
+.sticky-image-wrapper {
+  flex: 1;
+  max-width: 450px;
+}
+
+.feature-image {
+  position: sticky;
+  top: 100px;
+  width: 100%;
+  height: 300px;
+  background-color: #e5e7eb;
+  border-radius: 20px;
+}
+
+.feature-section {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: Coiny;
+  h2 {
+    font-size: 36px;
+    font-weight: 700;
+    color: $text-primary;
+    margin: 0 0 16px 0;
+  }
+  .feature-content {
+    font-size: 18px;
+    color: $text-secondary;
+    line-height: 1.6;
+    font-family: Comfortaa;
+  }
+}
+
+.pre-heading {
+  color: $accent-color;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  font-size: 20px;
+  font-family: Coiny;
+}
+
+// --- TEMPLATES SECTION STYLES ---
+.templates-section {
+  text-align: center;
+  padding: 80px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h2 {
+    font-size: 36px;
+    font-weight: 700;
+    color: $text-primary;
+    margin: 0 0 16px 0;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    color: $text-secondary;
+    max-width: 500px;
+    margin: 0 auto 40px auto;
+  }
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+
+  &.active {
+    background-color: #e0f8e9;
+    border-color: $accent-color;
+    color: $accent-color;
+    font-weight: 500;
+  }
+}
+
+.templates-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 576px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.view-more-link {
+  font-size: 18px;
+  font-weight: 600;
+  color: $accent-color;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

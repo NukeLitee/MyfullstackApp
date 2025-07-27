@@ -1,0 +1,69 @@
+// Biến màu
+$card-bg: #fff;
+$illustration-bg: #dcfce7;
+$border-color: #e5e7eb;
+$title-color: #111827;
+$text-color: #4b5563;
+
+.template-card {
+  background-color: $card-bg;
+  border: 1px solid $border-color;
+  border-radius: 16px;
+  overflow: hidden; // Quan trọng để bo góc phần illustration
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.card-illustration {
+  background-color: $illustration-bg;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 150px; // Chiều cao cố định cho khu vực ảnh
+
+  img {
+    max-height: 100%;
+    max-width: 100%;
+  }
+}
+
+.card-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; // Giúp footer luôn ở dưới cùng
+
+  h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: $title-color;
+    margin: 0 0 8px 0;
+  }
+
+  p {
+    font-size: 14px;
+    color: $text-color;
+    line-height: 1.5;
+    margin: 0;
+    flex-grow: 1; // Đẩy footer xuống
+  }
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: $text-color;
+  border-top: 1px solid $border-color;
+  padding-top: 16px;
+  margin-top: 16px;
+}

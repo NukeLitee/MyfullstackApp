@@ -1,9 +1,75 @@
+.task-list {
+  margin-top: 24px;
+  font-family: sans-serif;
+}
+
 .task-item {
-  // Thêm display: flex để căn chỉnh nút
   display: flex;
-  justify-content: space-between;
+  align-items: flex-start;
+  padding: 12px 8px;
+  border-bottom: 1px solid #f0f0f0;
+  gap: 12px;
+
+  &.completed {
+    .task-title, .task-desc {
+      text-decoration: line-through;
+      color: #aaa;
+    }
+  }
+
+  &:hover {
+    background-color: #fafafa;
+    .delete-btn {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+.task-checkbox {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin-top: 2px;
+  color: #888;
+}
+
+.check-icon.completed {
+  color: #22c55e;
+}
+
+.task-content {
+  flex-grow: 1;
+}
+
+.task-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin: 0 0 4px 0;
+}
+
+.task-desc {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.task-details {
+  margin-top: 8px;
+}
+
+.due-date {
+  display: inline-flex;
   align-items: center;
-  // ... các style khác
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+
+  &.today { color: #22c55e; }
+  &.overdue { color: #dc4c3e; }
+  &.upcoming { color: #555; }
 }
 
 .delete-btn {
@@ -14,6 +80,10 @@
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
 
   &:hover {
     background-color: #fecaca;

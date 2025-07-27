@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'; // THÊM VÀO: useEffect
-import axios from 'axios'; // THÊM VÀO: axios để gọi API
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 import AddTaskForm from '../../compoments/store/AddTaskForm';
-import TaskList from '../../compoments/store/TaskList'; // THÊM VÀO: Import TaskList
+import TaskList from '../../compoments/store/TaskList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faListAlt } from '@fortawesome/free-solid-svg-icons';
 import emptyStateImage from './sun-illustration.png';
@@ -28,17 +28,16 @@ function TodayView() {
                 console.error("Lỗi khi lấy dữ liệu tasks:", error);
             }
         };
-
         fetchTasks();
-    }, []); // Mảng rỗng `[]` đảm bảo useEffect chỉ chạy 1 lần
+    }, []);
 
     // === EVENT HANDLERS ===
     const handleAddTask = async (taskData) => {
         try {
             const response = await axios.post(API_URL, taskData);
             const newTask = response.data;
-            setTasks(prevTasks => [newTask, ...prevTasks]); // Thêm task mới vào đầu danh sách
-            setShowAddTask(false); // Ẩn form
+            setTasks(prevTasks => [newTask, ...prevTasks]);
+            setShowAddTask(false);
         } catch (error) {
             console.error("Lỗi khi tạo task:", error);
             alert("Tạo task thất bại!");
@@ -49,7 +48,6 @@ function TodayView() {
         if (window.confirm('Bạn có chắc chắn muốn xóa công việc này không?')) {
             try {
                 await axios.delete(`${API_URL}/${taskId}`);
-                // Lọc bỏ task đã xóa khỏi danh sách trên UI
                 setTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
             } catch (error) {
                 console.error("Lỗi khi xóa task:", error);
@@ -58,10 +56,24 @@ function TodayView() {
         }
     };
 
+    // THÊM HÀM MỚI: Xử lý bật/tắt trạng thái hoàn thành
+    const handleToggleTask = async (taskId) => {
+        try {
+            const response = await axios.patch(`${API_URL}/${taskId}/toggle`);
+            const updatedTask = response.data;
+            setTasks(prevTasks =>
+                prevTasks.map(task =>
+                    task._id === taskId ? { ...task, completed: updatedTask.completed } : task
+                )
+            );
+        } catch (error) {
+            console.error("Lỗi khi cập nhật trạng thái task:", error);
+        }
+    };
+
     // === RENDER LOGIC ===
     return (
         <main className={cx('wrapper')}>
-            {/* Header */}
             <header className={cx('header')}>
                 <h1 className={cx('title')}>Today</h1>
                 <button className={cx('view-switcher')}>
@@ -70,10 +82,13 @@ function TodayView() {
                 </button>
             </header>
 
-            {/* Hiển thị danh sách task nếu có */}
-            {tasks.length > 0 && <TaskList tasks={tasks} onDelete={handleDeleteTask} />}
+            {/* CẬP NHẬT: Truyền thêm prop onToggle vào TaskList */}
+            <TaskList
+                tasks={tasks}
+                onDelete={handleDeleteTask}
+                onToggle={handleToggleTask}
+            />
 
-            {/* Hiển thị form thêm task nếu được kích hoạt */}
             {showAddTask && (
                 <AddTaskForm
                     onAddTask={handleAddTask}
@@ -81,10 +96,8 @@ function TodayView() {
                 />
             )}
 
-            {/* Hiển thị Empty State hoặc nút Add Task inline */}
             {!showAddTask && (
                 tasks.length === 0 ? (
-                    // Hiển thị khi không có task nào
                     <div className={cx('empty-state')}>
                         <img src={emptyStateImage} alt="Empty state" className={cx('illustration')} />
                         <h2 className={cx('empty-title')}>Chào mừng bạn đến với chế độ xem Hôm nay</h2>
@@ -95,7 +108,6 @@ function TodayView() {
                         </button>
                     </div>
                 ) : (
-                    // Hiển thị nút "Add Task" khi đã có danh sách
                     <button className={cx('add-task-inline-btn')} onClick={() => setShowAddTask(true)}>
                         <FontAwesomeIcon icon={faPlus} className={cx('icon')} />
                         <span>Add Task</span>

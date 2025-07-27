@@ -3,11 +3,18 @@ const express = require('express');
 const router = express.Router();
 const taskController = require('../controllers/task.controller');
 
-// GET: /api/tasks (Lấy tất cả tasks)
-router.get('/', taskController.getTasks);
-
-// POST: /api/tasks (Tạo một task mới)
+// POST: Tạo task
 router.post('/', taskController.createTask);
+
+// GET: Lấy danh sách task
+router.get('/', taskController.getAllTasks);
+
+// DELETE: Xóa task theo id
 router.delete('/:id', taskController.deleteTask);
+
+router.patch('/:id/toggle', taskController.toggleTaskStatus);
+
+router.get('/upcoming', taskController.getUpcomingTasks);
+
 
 module.exports = router;

@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import classNames from 'classnames/bind';
+import DatePicker from "react-datepicker";
 import styles from './AddTaskForm.module.scss';
+import "react-datepicker/dist/react-datepicker.css"; // CSS cho DatePicker
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faCalendar, faFlag, faBell, faEllipsisH, faInbox,
@@ -22,6 +24,7 @@ function AddTaskForm({ onAddTask, onCancel }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [selectedPriority, setSelectedPriority] = useState(null);
+    const [dueDate, setDueDate] = useState(new Date());
 
     // State điều khiển UI
     const [showProjectDropdown, setShowProjectDropdown] = useState(false);
@@ -29,22 +32,32 @@ function AddTaskForm({ onAddTask, onCancel }) {
 
     // Xử lý khi gửi form
     const handleSubmit = () => {
-        if (!title) {
+        if (!title.trim()) {
             alert('Vui lòng nhập tiêu đề công việc!');
             return;
         }
-        onAddTask({ title, description, priority: selectedPriority });
+        onAddTask({ title, description, priority: selectedPriority, dueDate });
+
         // Reset các state sau khi thêm
         setTitle('');
         setDescription('');
         setSelectedPriority(null);
+        setDueDate(new Date());
     };
 
     // Xử lý khi chọn một độ ưu tiên
     const handleSelectPriority = (priority) => {
         setSelectedPriority(priority);
-        setShowPriorityDropdown(false); // Đóng dropdown sau khi chọn
+        setShowPriorityDropdown(false);
     };
+
+    // Component custom cho input của DatePicker để giữ style
+    const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
+        <button className={cx('meta-btn')} onClick={onClick} ref={ref}>
+            <FontAwesomeIcon icon={faCalendar} className={cx('icon')} />
+            <span>{value}</span>
+        </button>
+    ));
 
     return (
         <div className={cx('wrapper')}>
@@ -68,12 +81,14 @@ function AddTaskForm({ onAddTask, onCancel }) {
 
             {/* Khu vực các nút metadata */}
             <div className={cx('metadata')}>
-                <button className={cx('meta-btn')}>
-                    <FontAwesomeIcon icon={faCalendar} className={cx('icon')} />
-                    <span>Hôm nay</span>
-                </button>
+                <DatePicker
+                    selected={dueDate}
+                    onChange={(date) => setDueDate(date)}
+                    customInput={<CustomDateInput />}
+                    showTimeSelect
+                    dateFormat="d MMM, yyyy h:mm aa"
+                />
 
-                {/* Dropdown chọn độ ưu tiên */}
                 <div className={cx('priority-selector')}>
                     <button
                         className={cx('meta-btn')}
@@ -109,7 +124,7 @@ function AddTaskForm({ onAddTask, onCancel }) {
                 </button>
             </div>
 
-            {/* Khu vực hành động (chọn dự án và nút bấm) */}
+            {/* Khu vực hành động */}
             <div className={cx('actions')}>
                 <div className={cx('project-selector-wrapper')}>
                     <button

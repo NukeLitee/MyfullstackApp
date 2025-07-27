@@ -146,6 +146,9 @@
   background: none;
   border: none;
   font-family: "Comfortaa", sans-serif;
+  &hover{
+    cursor: pointer;
+  }
 }
 @keyframes fadeIn {
   from {

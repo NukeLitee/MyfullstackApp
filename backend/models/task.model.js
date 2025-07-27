@@ -5,16 +5,21 @@ const taskSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        trim: true,
     },
-    description: {
-        type: String,
-        trim: true,
-    },
+    description: String,
+    dueDate: Date,
     status: {
         type: String,
-        default: 'To Do',
+        default: 'pending',
     },
-}, { timestamps: true });
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+    completed: {
+        type: Boolean,
+        default: false,
+    },
+});
 
 module.exports = mongoose.model('Task', taskSchema);
