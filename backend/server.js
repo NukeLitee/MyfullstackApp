@@ -13,6 +13,8 @@ app.use(cors({
         'http://localhost:3000', // Giữ lại để chạy local
         'https://www.nukeweb.site' // THÊM DÒNG NÀY
     ],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Phải có 'DELETE'
 
 }));
