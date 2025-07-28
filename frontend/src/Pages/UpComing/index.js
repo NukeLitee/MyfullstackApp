@@ -3,20 +3,21 @@ import classNames from 'classnames/bind';
 import axios from 'axios';
 
 import styles from './UpComingPage.module.scss';
-// 1. Sửa lại import
 import TaskList from '../../compoments/store/TaskList';
 
 const cx = classNames.bind(styles);
-const API_URL = 'http://localhost:5000/api/tasks';
+
+// Sử dụng biến môi trường thay vì hardcode URL
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 function UpcomingPage() {
-    // Chỉ cần một state để lưu danh sách task
     const [upcomingTasks, setUpcomingTasks] = useState([]);
 
     useEffect(() => {
         const fetchUpcomingTasks = async () => {
             try {
-                const response = await axios.get(`${API_URL}/upcoming`);
+                // Cập nhật lời gọi API
+                const response = await axios.get(`${API_BASE_URL}/api/tasks/upcoming`);
                 setUpcomingTasks(response.data);
             } catch (error) {
                 console.error("Lỗi khi lấy dữ liệu tasks sắp tới:", error);
@@ -27,7 +28,8 @@ function UpcomingPage() {
 
     const handleToggleTask = async (taskId) => {
         try {
-            const response = await axios.patch(`${API_URL}/${taskId}/toggle`);
+            // Cập nhật lời gọi API
+            const response = await axios.patch(`${API_BASE_URL}/api/tasks/${taskId}/toggle`);
             const updatedTask = response.data;
             setUpcomingTasks(prevTasks =>
                 prevTasks.map(task =>
@@ -41,7 +43,8 @@ function UpcomingPage() {
 
     const handleDeleteTask = async (taskId) => {
         try {
-            await axios.delete(`${API_URL}/${taskId}`);
+            // Cập nhật lời gọi API
+            await axios.delete(`${API_BASE_URL}/api/tasks/${taskId}`);
             setUpcomingTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
         } catch (error) {
             console.error('Lỗi khi xóa task:', error);
@@ -54,13 +57,16 @@ function UpcomingPage() {
                 <h1 className={cx('title')}>Sắp tới</h1>
             </header>
 
-            {/* 2. Render trực tiếp component TaskList */}
             <div className={cx('task-container')}>
-                <TaskList
-                    tasks={upcomingTasks}
-                    onToggle={handleToggleTask}
-                    onDelete={handleDeleteTask}
-                />
+                {upcomingTasks.length > 0 ? (
+                    <TaskList
+                        tasks={upcomingTasks}
+                        onToggle={handleToggleTask}
+                        onDelete={handleDeleteTask}
+                    />
+                ) : (
+                    <p className={cx('empty-message')}>Không có công việc nào sắp tới.</p>
+                )}
             </div>
         </main>
     );

@@ -6,7 +6,7 @@ import styles from './Completed.module.scss';
 import TaskList from '../../compoments/store/TaskList';
 
 const cx = classNames.bind(styles);
-const API_URL = 'http://localhost:5000/api/tasks';
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 function Completed() {
     const [completedTasks, setCompletedTasks] = useState([]);
@@ -14,7 +14,7 @@ function Completed() {
     useEffect(() => {
         const fetchCompletedTasks = async () => {
             try {
-                const response = await axios.get(`${API_URL}/completed`);
+                const response = await axios.get(`${API_BASE_URL}/completed`);
                 setCompletedTasks(response.data);
             } catch (error) {
                 console.error("Lỗi khi lấy dữ liệu tasks đã hoàn thành:", error);
@@ -26,7 +26,7 @@ function Completed() {
     const handleToggleTask = async (taskId) => {
         // Logic này sẽ "hoàn tác" một task, chuyển nó về chưa hoàn thành
         try {
-            await axios.patch(`${API_URL}/${taskId}/toggle`);
+            await axios.patch(`${API_BASE_URL}/${taskId}/toggle`);
             // Xóa task khỏi danh sách đã hoàn thành trên UI
             setCompletedTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
         } catch (error) {
@@ -36,7 +36,7 @@ function Completed() {
 
     const handleDeleteTask = async (taskId) => {
         try {
-            await axios.delete(`${API_URL}/${taskId}`);
+            await axios.delete(`${API_BASE_URL}/${taskId}`);
             setCompletedTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
         } catch (error) {
             console.error('Lỗi khi xóa task:', error);

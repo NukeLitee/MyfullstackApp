@@ -19,7 +19,7 @@ import {
 const cx = classNames.bind(styles);
 
 // URL API cho projects
-const PROJECTS_API_URL = 'http://localhost:5000/api/projects';
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 function Sidebar() {
     // === STATE MANAGEMENT ===
@@ -34,7 +34,7 @@ function Sidebar() {
             try {
                 // Giả sử token được lưu trong localStorage sau khi đăng nhập
                 const token = localStorage.getItem('authToken');
-                const response = await axios.get(PROJECTS_API_URL, {
+                const response = await axios.get(API_BASE_URL, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setProjects(response.data);
@@ -50,7 +50,7 @@ function Sidebar() {
     const handleAddProject = async (projectData) => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await axios.post(PROJECTS_API_URL, projectData, {
+            const response = await axios.post(API_BASE_URL, projectData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const newProject = response.data;

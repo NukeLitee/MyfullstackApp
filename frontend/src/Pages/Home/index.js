@@ -10,8 +10,8 @@ import emptyStateImage from './sun-illustration.png';
 
 const cx = classNames.bind(styles);
 
-// Thay thế bằng URL backend của bạn
-const API_URL = 'http://localhost:5000/api/tasks';
+// Sử dụng biến môi trường thay vì hardcode URL
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 function TodayView() {
     // === STATE MANAGEMENT ===
@@ -22,7 +22,8 @@ function TodayView() {
     useEffect(() => {
         const fetchTasks = async () => {
             try {
-                const response = await axios.get(API_URL);
+                // Cập nhật lời gọi API
+                const response = await axios.get(`${API_BASE_URL}/api/tasks`);
                 setTasks(response.data);
             } catch (error) {
                 console.error("Lỗi khi lấy dữ liệu tasks:", error);
@@ -34,9 +35,9 @@ function TodayView() {
     // === EVENT HANDLERS ===
     const handleAddTask = async (taskData) => {
         try {
-            const response = await axios.post(API_URL, taskData);
-            const newTask = response.data;
-            setTasks(prevTasks => [newTask, ...prevTasks]);
+            // Cập nhật lời gọi API
+            const response = await axios.post(`${API_BASE_URL}/api/tasks`, taskData);
+            setTasks(prevTasks => [response.data, ...prevTasks]);
             setShowAddTask(false);
         } catch (error) {
             console.error("Lỗi khi tạo task:", error);
@@ -47,7 +48,8 @@ function TodayView() {
     const handleDeleteTask = async (taskId) => {
         if (window.confirm('Bạn có chắc chắn muốn xóa công việc này không?')) {
             try {
-                await axios.delete(`${API_URL}/${taskId}`);
+                // Cập nhật lời gọi API
+                await axios.delete(`${API_BASE_URL}/api/tasks/${taskId}`);
                 setTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
             } catch (error) {
                 console.error("Lỗi khi xóa task:", error);
@@ -56,10 +58,10 @@ function TodayView() {
         }
     };
 
-    // THÊM HÀM MỚI: Xử lý bật/tắt trạng thái hoàn thành
     const handleToggleTask = async (taskId) => {
         try {
-            const response = await axios.patch(`${API_URL}/${taskId}/toggle`);
+            // Cập nhật lời gọi API
+            const response = await axios.patch(`${API_BASE_URL}/api/tasks/${taskId}/toggle`);
             const updatedTask = response.data;
             setTasks(prevTasks =>
                 prevTasks.map(task =>
@@ -82,7 +84,6 @@ function TodayView() {
                 </button>
             </header>
 
-            {/* CẬP NHẬT: Truyền thêm prop onToggle vào TaskList */}
             <TaskList
                 tasks={tasks}
                 onDelete={handleDeleteTask}

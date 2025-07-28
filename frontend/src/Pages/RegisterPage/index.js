@@ -7,10 +7,11 @@ import logo from '../../assets/NukeLogo.png';
 import loginIllustration from '../../assets/login-illustration.png';
 
 const cx = classNames.bind(styles);
-const API_URL = 'http://localhost:5000/api/auth';
+
+// Sử dụng biến môi trường thay vì hardcode URL
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 function RegisterPage() {
-    // Thêm state cho fullName
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -29,17 +30,16 @@ function RegisterPage() {
         }
 
         try {
-            // Gọi API đăng ký
-            const response = await axios.post(`${API_URL}/register`, { fullName, email, password });
+            // Kết hợp URL gốc với endpoint cụ thể
+            const response = await axios.post(`${API_BASE_URL}/api/auth/register`, { fullName, email, password });
             setSuccess(response.data.message + ' Bạn sẽ được chuyển đến trang đăng nhập...');
 
-            // Chuyển hướng đến trang đăng nhập sau 2 giây
             setTimeout(() => {
                 navigate('/loginPage');
             }, 2000);
 
         } catch (err) {
-            setError(err.response?.data?.message || 'Đăng ký thất bại.');
+            setError(err.response?.data?.message || 'Đăng ký thất bại. Vui lòng thử lại.');
         }
     };
 
@@ -54,7 +54,6 @@ function RegisterPage() {
                     <h1>Tạo tài khoản</h1>
 
                     <form onSubmit={handleRegister}>
-                        {/* Thêm trường Họ và tên */}
                         <div className={cx('form-group')}>
                             <label htmlFor="fullName">Họ và tên</label>
                             <input
@@ -62,7 +61,7 @@ function RegisterPage() {
                                 type="text"
                                 value={fullName}
                                 onChange={(e) => setFullName(e.target.value)}
-                                placeholder="Enter your full name..."
+                                placeholder="Nhập họ và tên của bạn..."
                                 required
                             />
                         </div>
@@ -73,18 +72,18 @@ function RegisterPage() {
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Enter the email..."
+                                placeholder="Nhập email của bạn..."
                                 required
                             />
                         </div>
                         <div className={cx('form-group')}>
-                            <label htmlFor="password">Password</label>
+                            <label htmlFor="password">Mật khẩu</label>
                             <input
                                 id="password"
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Enter the password..."
+                                placeholder="Nhập mật khẩu (ít nhất 6 ký tự)..."
                                 required
                             />
                         </div>
@@ -92,13 +91,11 @@ function RegisterPage() {
                         {error && <p className={cx('error-message')}>{error}</p>}
                         {success && <p className={cx('success-message')}>{success}</p>}
 
-                        {/* Thay đổi text của nút */}
                         <button type="submit" className={cx('submit-btn')}>Đăng ký</button>
                     </form>
 
                     <p className={cx('signup-link')}>
-                        {/* Thay đổi link ở cuối */}
-                        Already have an account? <Link to="/loginPage">Log in</Link>
+                        Đã có tài khoản? <Link to="/loginPage">Đăng nhập</Link>
                     </p>
                 </div>
                 <div className={cx('illustration')}>

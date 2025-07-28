@@ -7,7 +7,7 @@ import logo from '../../assets/NukeLogo.png'; // Thêm logo của bạn vào
 import loginIllustration from '../../assets/login-illustration.png'; // Thêm hình minh họa
 
 const cx = classNames.bind(styles);
-const API_URL = 'http://localhost:5000/api/auth';
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 function LoginPage() {
     const [email, setEmail] = useState('');
@@ -19,7 +19,7 @@ function LoginPage() {
         e.preventDefault();
         setError('');
         try {
-            const response = await axios.post(`${API_URL}/login`, { email, password });
+            const response = await axios.post(`${API_BASE_URL}/api/auth/login`, { email, password });
             localStorage.setItem('authToken', response.data.token);
             // Chuyển hướng đến trang chính sau khi đăng nhập thành công
             navigate('/Main');
