@@ -11,7 +11,8 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({
     origin: [
         'http://localhost:3000', // Giữ lại để chạy local
-        'https://www.nukeweb.site' // THÊM DÒNG NÀY
+        'https://www.nukeweb.site', // THÊM DÒNG NÀY
+        'https://nukeweb.site', // THÊM DÒNG NÀY
     ],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
