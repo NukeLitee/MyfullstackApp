@@ -9,8 +9,12 @@ const PORT = process.env.PORT || 5000;
 
 // Middlewares
 app.use(cors({
-    origin: 'http://localhost:3000', // Địa chỉ frontend của bạn
+    origin: [
+        'http://localhost:3000', // Giữ lại để chạy local
+        'https://www.nukeweb.site' // THÊM DÒNG NÀY
+    ],
     methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Phải có 'DELETE'
+
 }));
 app.use(express.json());
 
