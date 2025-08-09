@@ -7,28 +7,34 @@ import styles from './TaskList.module.scss';
 
 const cx = classNames.bind(styles);
 
-function TaskList({ tasks, onDelete, onToggle }) {
-    const formatDueDate = (dueDate) => {
-        if (!dueDate) return null;
-        const parsedDate = typeof dueDate === 'string' ? parseISO(dueDate) : new Date(dueDate);
+// 1. Tách hàm helper ra ngoài component
+const formatDueDate = (dueDate) => {
+    if (!dueDate) return null;
+    const parsedDate = typeof dueDate === 'string' ? parseISO(dueDate) : new Date(dueDate);
 
-        if (isToday(parsedDate)) {
-            return {
-                text: `Hôm nay, ${format(parsedDate, 'HH:mm', { locale: vi })}`,
-                statusClass: 'today'
-            };
-        } else if (isPast(parsedDate)) {
-            return {
-                text: `Quá hạn: ${format(parsedDate, 'dd/MM/yyyy HH:mm', { locale: vi })}`,
-                statusClass: 'overdue'
-            };
-        } else {
-            return {
-                text: format(parsedDate, 'EEEE, dd/MM/yyyy HH:mm', { locale: vi }),
-                statusClass: 'upcoming'
-            };
-        }
-    };
+    if (isToday(parsedDate)) {
+        return {
+            text: `Hôm nay, ${format(parsedDate, 'HH:mm', { locale: vi })}`,
+            statusClass: 'today'
+        };
+    } else if (isPast(parsedDate) && !isToday(parsedDate)) { // Chính xác hơn
+        return {
+            text: `Quá hạn: ${format(parsedDate, 'dd/MM/yyyy HH:mm', { locale: vi })}`,
+            statusClass: 'overdue'
+        };
+    } else {
+        return {
+            text: format(parsedDate, 'EEEE, dd/MM/yyyy HH:mm', { locale: vi }),
+            statusClass: 'upcoming'
+        };
+    }
+};
+
+function TaskList({ tasks, onDelete, onToggle }) {
+    // 2. Thêm điều kiện bảo vệ
+    if (!tasks) {
+        return null; // Không render gì cả nếu tasks không tồn tại
+    }
 
     return (
         <div className={cx('task-list')}>

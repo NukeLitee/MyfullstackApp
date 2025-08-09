@@ -1,14 +1,10 @@
-
 // Biến màu và kích thước
 $bg-color: #f0fdf4;
-$active-bg-color: #dcfce7;
 $hover-bg-color: #e9fbec;
-$active-border-color: #22c55e;
+$active-dark-bg-color: #166534; // Màu xanh đậm cho trạng thái active
 $text-color: #3f3f46;
 $icon-color: #52525b;
 $sidebar-width: 280px;
-
-
 
 .wrapper {
   background-color: $bg-color;
@@ -23,7 +19,7 @@ $sidebar-width: 280px;
 
 .main-content {
   flex-grow: 1;
-  font-family: "Comfortaa", sans-serif;
+  font-family: 'Comfortaa', sans-serif;
 }
 
 // User Menu
@@ -57,9 +53,16 @@ $sidebar-width: 280px;
 
 .user-actions {
   display: flex;
+  align-items: center;
   gap: 16px;
   color: $icon-color;
   cursor: pointer;
+}
+
+.notification-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 // Navigation lists
@@ -76,7 +79,7 @@ $sidebar-width: 280px;
   border-radius: 6px;
   cursor: pointer;
   color: $text-color;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
   font-weight: 500;
   margin-bottom: 4px;
   text-decoration: none;
@@ -85,21 +88,15 @@ $sidebar-width: 280px;
     background-color: $hover-bg-color;
   }
 
+  // --- PHẦN CẬP NHẬT CHÍNH ---
   &.active {
-    background-color: $active-bg-color;
+    background-color: $active-dark-bg-color; // Đổi thành màu xanh đậm
+    color: #fff; // Chữ chuyển thành màu trắng
     font-weight: 600;
-    position: relative;
 
-    // Đường kẻ xanh bên trái
-    &::before {
-      content: '';
-      position: absolute;
-      left: -16px; // Đặt bên ngoài padding của wrapper
-      top: 0;
-      width: 4px;
-      height: 100%;
-      background-color: $active-border-color;
-      border-radius: 0 4px 4px 0;
+    // Icon cũng đổi màu trắng để nổi bật trên nền đậm
+    .icon {
+      color: #fff;
     }
   }
 }
@@ -139,10 +136,17 @@ $sidebar-width: 280px;
   font-weight: 400;
 }
 
+.project-color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
 
 // Help Section
 .help-section {
-  margin-top: auto; // Đẩy xuống dưới cùng
+  margin-top: auto;
   display: flex;
   align-items: center;
   padding: 8px 12px;

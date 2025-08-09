@@ -20,6 +20,20 @@ const taskSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-});
+    ownerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User' // Liên kết với model User
+    },
+    projectId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
+        default: null
+    },
+    priority: {
+        type: Number,
+        default: 4
+    },
+},{ timestamps: true });
 
 module.exports = mongoose.model('Task', taskSchema);

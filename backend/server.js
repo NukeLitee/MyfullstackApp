@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -16,7 +17,7 @@ app.use(cors({
     ],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
-    methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Phải có 'DELETE'
+    methods: ['GET', 'POST', 'PATCH', 'DELETE','PUT'],
 
 }));
 app.use(express.json());
@@ -33,11 +34,13 @@ const taskRoutes = require('./routes/task.routes');
 const projectRoutes = require('./routes/project.routes');
 
 const authRoutes = require('./routes/auth.routes');
+const userRoutes = require('./routes/user.routes');
+
+app.use('/api/users', userRoutes); // Thêm dòng này
 app.use('/api/auth', authRoutes); // Thêm dòng này
 app.use('/api/projects', projectRoutes);
-// Sử dụng Routes
-// Đây là dòng quan trọng nhất để sửa lỗi "Cannot GET /api/tasks"
 app.use('/api/tasks', taskRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Khởi động server
 app.listen(PORT, () => {

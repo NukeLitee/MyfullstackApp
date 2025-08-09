@@ -1,0 +1,75 @@
+.wrapper {
+  position: absolute;
+  top: calc(100% + 10px); // Nằm dưới icon chuông 10px
+  right: 0;
+  width: 360px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid #eee;
+  z-index: 100;
+  font-family: sans-serif;
+}
+
+.header, .footer {
+  padding: 12px 16px;
+  h3 { margin: 0; font-size: 16px; }
+}
+
+.header {
+  border-bottom: 1px solid #eee;
+}
+
+.notification-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f9f9f9;
+  }
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+  flex-shrink: 0;
+}
+
+.content {
+  p {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+}
+
+.timestamp {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.footer {
+  text-align: center;
+  border-top: 1px solid #eee;
+  a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+  }
+}

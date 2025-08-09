@@ -1,20 +1,15 @@
-// routes/task.routes.js
 const express = require('express');
 const router = express.Router();
 const taskController = require('../controllers/task.controller');
+const authMiddleware = require('../middlewares/auth.middleware');
 
-// POST: Tạo task
-router.post('/', taskController.createTask);
+router.use(authMiddleware);
 
-// GET: Lấy danh sách task
 router.get('/', taskController.getAllTasks);
-
-// DELETE: Xóa task theo id
+router.post('/', taskController.createTask);
+router.get('/upcomingpage', taskController.getUpcomingTasks);
+router.get('/project/:projectId', taskController.getTasksByProject);
 router.delete('/:id', taskController.deleteTask);
-
 router.patch('/:id/toggle', taskController.toggleTaskStatus);
-
-router.get('/upcoming', taskController.getUpcomingTasks);
-
 
 module.exports = router;
