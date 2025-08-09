@@ -55,3 +55,29 @@
     background-color: #fef2f2;
   }
 }
+.invite-section {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #eee;
+}
+
+.invite-input {
+  flex-grow: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.invite-btn {
+  background-color: #16a34a;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.9;
+  }
+}

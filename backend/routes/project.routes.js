@@ -16,5 +16,6 @@ router.post('/', projectController.createProject);
 router.get('/:projectId', projectController.getProjectById);
 
 router.delete('/:projectId', projectController.deleteProject);
+router.post('/:projectId/members', projectController.addMember);
 
 module.exports = router;

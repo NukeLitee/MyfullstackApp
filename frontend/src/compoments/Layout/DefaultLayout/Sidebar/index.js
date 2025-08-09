@@ -7,6 +7,7 @@ import ProfileModal from '../ProfileModal';
 import AddProjectModal from '../../../store/AddProjectModal';
 import NotificationDropdown from '../../../store/NotificationDropdown'; // Import dropdown mới
 import { useProjects } from '../../../../hooks/useProjects';
+import { faTrash } from '@fortawesome/free-solid-svg-icons'; // Import icon thùng rác
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -19,7 +20,7 @@ const cx = classNames.bind(styles);
 
 function Sidebar() {
     // Lấy dữ liệu và các hàm xử lý từ custom hook
-    const { projects, addProject } = useProjects();
+    const { projects, addProject, deleteProject } = useProjects();
 
     // State quản lý UI của riêng component này
     const [showProfileModal, setShowProfileModal] = useState(false);
@@ -35,6 +36,14 @@ function Sidebar() {
             alert("Tạo dự án thất bại!");
         }
     };
+    const handleDeleteProject = (e, projectId) => {
+        e.preventDefault(); // Ngăn NavLink điều hướng khi nhấn nút xóa
+        e.stopPropagation();
+        if (window.confirm('Bạn có chắc muốn xóa dự án này và tất cả công việc bên trong?')) {
+            deleteProject(projectId);
+        }
+    };
+
 
     return (
         <>
@@ -107,8 +116,13 @@ function Sidebar() {
                                     to={`/project/${project._id}`}
                                     className={({ isActive }) => cx('nav-item', 'project-item', { active: isActive })}
                                 >
-                                    <span className={cx('project-color-dot')} style={{ backgroundColor: project.color }}></span>
-                                    <span>{project.name}</span>
+                                    <div className={cx('project-info')}>
+                                        <span className={cx('project-color-dot')} style={{ backgroundColor: project.color }}></span>
+                                        <span>{project.name}</span>
+                                    </div>
+                                    <button className={cx('delete-project-btn')} onClick={(e) => handleDeleteProject(e, project._id)}>
+                                        <FontAwesomeIcon icon={faTrash} />
+                                    </button>
                                 </NavLink>
                             ))}
                         </ul>

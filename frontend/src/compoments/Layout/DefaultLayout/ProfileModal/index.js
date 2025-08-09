@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames/bind';
 import styles from './ProfileModal.module.scss';
 import api from '../../../../services/api';
+import { useNavigate } from 'react-router-dom'; // 1. Import useNavigate
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,6 +18,7 @@ function ProfileModal({ show, onClose }) {
     const [isLoading, setIsLoading] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
     const fileInputRef = useRef(null);
+    const navigate = useNavigate(); // 2. Khởi tạo hook navigate
 
     // useEffect để lấy dữ liệu và kích hoạt animation
     useEffect(() => {
@@ -78,7 +80,16 @@ function ProfileModal({ show, onClose }) {
             alert('Cập nhật ảnh thất bại!');
         }
     };
+    const handleLogout = () => {
+        // Xóa token đã lưu trong localStorage
+        localStorage.removeItem('authToken');
+        // Điều hướng người dùng về trang đăng nhập
+        navigate('/loginpage');
+    };
 
+    if (!show) {
+        return null;
+    }
     // Xử lý việc cập nhật tên/email
     const handleProfileUpdate = async (e) => {
         e.preventDefault();
@@ -144,6 +155,9 @@ function ProfileModal({ show, onClose }) {
                                 </div>
                             </section>
                             <div className={cx('modal-footer')}>
+                                <button type="button" className={cx('logout-btn')} onClick={handleLogout}>
+                                    Đăng xuất
+                                </button>
                                 <button type="button" className={cx('cancel-btn')} onClick={handleClose}>Hủy</button>
                                 <button type="submit" className={cx('submit-btn')}>Lưu thay đổi</button>
                             </div>

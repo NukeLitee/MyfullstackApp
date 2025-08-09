@@ -180,3 +180,16 @@ $transition-duration: 0.3s;
   color: white;
   &:hover { opacity: 0.9; }
 }
+.logout-btn {
+  background: none;
+  border: none;
+  color: black; // Màu đỏ để cảnh báo
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 10px 0; // Thêm padding để dễ nhấn
+  background-color: #C2FCBF;
+  &:hover {
+    opacity: 0.5;
+  }
+}

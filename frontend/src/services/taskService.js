@@ -1,4 +1,5 @@
 import api from './api';
+const API_BASE_URL = process.env.REACT_APP_API_URL + '/api/tasks';
 
 const taskService = {
     getAllTasks: () => api.get('/tasks'),

@@ -15,6 +15,8 @@ function ProjectView() {
     const [tasks, setTasks] = useState([]);
     const [project, setProject] = useState(null);
     const [showAddTask, setShowAddTask] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [inviteEmail, setInviteEmail] = useState('');
 
     const fetchProjectData = useCallback(async () => {
         if (!projectId) return;
@@ -36,7 +38,20 @@ function ProjectView() {
     useEffect(() => {
         fetchProjectData();
     }, [fetchProjectData]);
-
+    const handleInviteMember = async () => {
+        if (!inviteEmail.trim()) {
+            alert('Vui lòng nhập email của thành viên cần mời.');
+            return;
+        }
+        try {
+            await api.post(`/projects/${projectId}/members`, { email: inviteEmail });
+            alert(`Đã gửi lời mời đến ${inviteEmail}!`);
+            setInviteEmail(''); // Xóa nội dung input sau khi gửi
+            // Trong ứng dụng thật, bạn nên fetch lại danh sách thành viên
+        } catch (error) {
+            alert(error.response?.data?.message || 'Mời thành viên thất bại.');
+        }
+    };
     const handleAddTask = async (taskData) => {
         console.log('[HANDLER] Bắt đầu thêm task. Dữ liệu:', taskData);
         try {
@@ -102,7 +117,16 @@ function ProjectView() {
                     <span>Danh sách</span>
                 </button>
             </header>
-
+            <div className={cx('invite-section')}>
+                <input
+                    type="email"
+                    placeholder="Nhập email để mời..."
+                    value={inviteEmail}
+                    onChange={(e) => setInviteEmail(e.target.value)}
+                    className={cx('invite-input')}
+                />
+                <button className={cx('invite-btn')} onClick={handleInviteMember}>Mời</button>
+            </div>
             <div className={cx('task-container')}>
                 {tasks && tasks.map(task => (
                     <TaskItem
