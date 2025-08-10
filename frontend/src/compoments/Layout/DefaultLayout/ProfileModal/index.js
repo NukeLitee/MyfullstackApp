@@ -1,62 +1,54 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './ProfileModal.module.scss';
 import api from '../../../../services/api';
-import { useNavigate } from 'react-router-dom'; // 1. Import useNavigate
+import { useAuth } from '../../../../context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
 function ProfileModal({ show, onClose }) {
-    // State quản lý dữ liệu và UI
-    const [user, setUser] = useState(null);
+    const { user, updateUser, logout } = useAuth();
+    const navigate = useNavigate();
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
     const [preview, setPreview] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
     const fileInputRef = useRef(null);
-    const navigate = useNavigate(); // 2. Khởi tạo hook navigate
 
-    // useEffect để lấy dữ liệu và kích hoạt animation
     useEffect(() => {
         if (show) {
+            if (user) {
+                setName(user.fullName);
+                setEmail(user.email);
+                if (user.avatarUrl) {
+                    setPreview(`${process.env.REACT_APP_API_URL}/${user.avatarUrl.replace(/\\/g, '/')}`);
+                } else {
+                    setPreview(null);
+                }
+            }
             const mountTimer = setTimeout(() => setIsAnimating(true), 10);
-
-            setIsLoading(true);
-            api.get('/users/me')
-                .then(response => {
-                    const userData = response.data;
-                    setUser(userData);
-                    setName(userData.fullName);
-                    setEmail(userData.email);
-                    if (userData.avatarUrl) {
-                        setPreview(`http://localhost:5000/${userData.avatarUrl.replace(/\\/g, '/')}`);
-                    } else {
-                        setPreview(null);
-                    }
-                    setIsLoading(false);
-                })
-                .catch(error => {
-                    console.error("Lỗi khi lấy thông tin user:", error);
-                    setIsLoading(false);
-                });
-
             return () => clearTimeout(mountTimer);
         }
-    }, [show]);
+    }, [show, user]);
 
-    // Hàm đóng có xử lý exit animation
     const handleClose = () => {
         setIsAnimating(false);
         setTimeout(() => {
             onClose();
-        }, 300); // Thời gian phải khớp với transition-duration trong SCSS
+            if (user && user.avatarUrl) {
+                setPreview(`${process.env.REACT_APP_API_URL}/${user.avatarUrl.replace(/\\/g, '/')}`);
+            } else {
+                setPreview(null);
+            }
+            setSelectedFile(null);
+        }, 300);
     };
 
-    // Xử lý khi người dùng chọn một file ảnh
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -65,7 +57,6 @@ function ProfileModal({ show, onClose }) {
         }
     };
 
-    // Xử lý việc tải ảnh đại diện lên server
     const handleAvatarUpload = async () => {
         if (!selectedFile) return;
         const formData = new FormData();
@@ -74,33 +65,29 @@ function ProfileModal({ show, onClose }) {
             const response = await api.post('/users/me/avatar', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            setUser(response.data);
+            updateUser(response.data);
             alert('Cập nhật ảnh đại diện thành công!');
+            setSelectedFile(null);
         } catch (error) {
             alert('Cập nhật ảnh thất bại!');
         }
     };
-    const handleLogout = () => {
-        // Xóa token đã lưu trong localStorage
-        localStorage.removeItem('authToken');
-        // Điều hướng người dùng về trang đăng nhập
-        navigate('/loginpage');
-    };
 
-    if (!show) {
-        return null;
-    }
-    // Xử lý việc cập nhật tên/email
     const handleProfileUpdate = async (e) => {
         e.preventDefault();
         try {
             const response = await api.put('/users/me', { fullName: name, email });
-            setUser(response.data);
+            updateUser(response.data);
             alert('Cập nhật thông tin thành công!');
-            handleClose(); // Đóng modal sau khi thành công
+            handleClose();
         } catch (error) {
             alert('Cập nhật thông tin thất bại!');
         }
+    };
+
+    const handleLogout = () => {
+        logout();
+        navigate('/loginpage');
     };
 
     if (!show) {
@@ -120,7 +107,7 @@ function ProfileModal({ show, onClose }) {
                     </button>
                 </header>
                 <div className={cx('modal-body')}>
-                    {isLoading ? (
+                    {!user ? (
                         <p>Đang tải...</p>
                     ) : (
                         <form onSubmit={handleProfileUpdate}>
@@ -132,11 +119,7 @@ function ProfileModal({ show, onClose }) {
                                     </div>
                                     <div className={cx('avatar-actions')}>
                                         <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} accept="image/*" />
-                                        <button
-                                            type="button"
-                                            className={cx('action-btn')}
-                                            onClick={() => fileInputRef.current.click()}
-                                        >Tải lên ảnh</button>
+                                        <button type="button" className={cx('action-btn')} onClick={() => fileInputRef.current.click()}>Tải lên ảnh</button>
                                         {selectedFile && <button type="button" className={cx('action-btn', 'upload-btn')} onClick={handleAvatarUpload}>Lưu ảnh</button>}
                                         <p>Chọn một bức ảnh có kích thước tối đa 4MB.</p>
                                     </div>
@@ -144,22 +127,18 @@ function ProfileModal({ show, onClose }) {
                             </section>
                             <section className={cx('profile-section')}>
                                 <label htmlFor="name-input">Tên</label>
-                                <div className={cx('input-wrapper')}>
-                                    <input id="name-input" type="text" value={name} onChange={e => setName(e.target.value)} className={cx('input-field')} />
-                                </div>
+                                <input id="name-input" type="text" value={name} onChange={e => setName(e.target.value)} className={cx('input-field')} />
                             </section>
                             <section className={cx('profile-section')}>
                                 <label htmlFor="email-input">Email</label>
-                                <div className={cx('input-wrapper')}>
-                                    <input id="email-input" type="email" value={email} onChange={e => setEmail(e.target.value)} className={cx('input-field')} />
-                                </div>
+                                <input id="email-input" type="email" value={email} onChange={e => setEmail(e.target.value)} className={cx('input-field')} />
                             </section>
                             <div className={cx('modal-footer')}>
-                                <button type="button" className={cx('logout-btn')} onClick={handleLogout}>
-                                    Đăng xuất
-                                </button>
-                                <button type="button" className={cx('cancel-btn')} onClick={handleClose}>Hủy</button>
-                                <button type="submit" className={cx('submit-btn')}>Lưu thay đổi</button>
+                                <button type="button" className={cx('logout-btn')} onClick={handleLogout}>Đăng xuất</button>
+                                <div className={cx('main-actions')}>
+                                    <button type="button" className={cx('cancel-btn')} onClick={handleClose}>Hủy</button>
+                                    <button type="submit" className={cx('submit-btn')}>Lưu thay đổi</button>
+                                </div>
                             </div>
                         </form>
                     )}

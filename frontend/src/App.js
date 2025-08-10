@@ -3,9 +3,11 @@ import {Fragment} from "react";
 import { BrowserRouter as Router , Routes, Route } from 'react-router-dom';
 import {publicRoutes} from "./routes";
 import {DefaultLayout} from "./compoments/Layout";
+import { AuthProvider } from './context/AuthContext';
 function App() {
   return (
       <Router>
+          <AuthProvider>
         <div className="App">
             <Routes>
                 {publicRoutes.map((route,index) => {
@@ -20,6 +22,7 @@ function App() {
                 })}
             </Routes>
         </div>
+          </AuthProvider>
       </Router>
   );
 }

@@ -8,17 +8,13 @@ $transition-duration: 0.3s;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-
-  // Trạng thái ẩn/hiện và hiệu ứng
   opacity: 0;
   visibility: hidden;
   transition: opacity $transition-duration ease, visibility $transition-duration ease;
 
-  // Khi có class 'active', nó sẽ hiện ra
   &.active {
     opacity: 1;
     visibility: visible;
-
     .modal-content {
       opacity: 1;
       transform: scale(1) translateY(0);
@@ -35,8 +31,6 @@ $transition-duration: 0.3s;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-
-  // Trạng thái ẩn/hiện và hiệu ứng
   opacity: 0;
   transform: scale(0.95) translateY(-20px);
   transition: opacity $transition-duration ease, transform $transition-duration ease;
@@ -48,20 +42,11 @@ $transition-duration: 0.3s;
   align-items: center;
   padding: 16px 24px;
   border-bottom: 1px solid #e5e7eb;
-
-  h1 {
-    font-size: 24px;
-    font-weight: 600;
-    margin: 0;
-  }
+  h1 { font-size: 24px; font-weight: 600; margin: 0; }
 }
 
 .close-btn {
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: #6b7280;
-  cursor: pointer;
+  background: none; border: none; font-size: 20px; color: #6b7280; cursor: pointer;
 }
 
 .modal-body {
@@ -74,18 +59,8 @@ $transition-duration: 0.3s;
   padding-bottom: 24px;
   margin-bottom: 24px;
   border-bottom: 1px solid #e5e7eb;
-
-  &:last-of-type {
-    border-bottom: none;
-    margin-bottom: 0;
-  }
-
-  label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 12px;
-  }
+  &:last-of-type { border-bottom: none; margin-bottom: 0; }
+  label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 12px; }
 }
 
 .avatar-section {
@@ -114,16 +89,10 @@ $transition-duration: 0.3s;
   object-fit: cover;
 }
 
-.avatar-actions {
-  p {
-    font-size: 12px;
-    color: #6b7280;
-    margin-top: 8px;
-  }
-}
-
-.input-wrapper {
-  position: relative;
+.avatar-actions p {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 8px;
 }
 
 .input-field {
@@ -145,7 +114,6 @@ $transition-duration: 0.3s;
   font-weight: 500;
   cursor: pointer;
   margin-right: 8px;
-
   &.upload-btn {
     background-color: #dcfce7;
     border-color: #16a34a;
@@ -155,11 +123,27 @@ $transition-duration: 0.3s;
 
 .modal-footer {
   display: flex;
-  justify-content: flex-end;
-  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 32px;
   padding-top: 24px;
   border-top: 1px solid #e5e7eb;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: #dc4c3e;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 0;
+  &:hover { text-decoration: underline; }
+}
+
+.main-actions {
+  display: flex;
+  gap: 12px;
 }
 
 .cancel-btn, .submit-btn {
@@ -171,25 +155,5 @@ $transition-duration: 0.3s;
   cursor: pointer;
 }
 
-.cancel-btn {
-  background-color: #e5e7eb;
-  &:hover { background-color: #d1d5db; }
-}
-.submit-btn {
-  background-color: #16a34a;
-  color: white;
-  &:hover { opacity: 0.9; }
-}
-.logout-btn {
-  background: none;
-  border: none;
-  color: black; // Màu đỏ để cảnh báo
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 10px 0; // Thêm padding để dễ nhấn
-  background-color: #C2FCBF;
-  &:hover {
-    opacity: 0.5;
-  }
-}
+.cancel-btn { background-color: #e5e7eb; &:hover { background-color: #d1d5db; } }
+.submit-btn { background-color: #16a34a; color: white; &:hover { opacity: 0.9; } }

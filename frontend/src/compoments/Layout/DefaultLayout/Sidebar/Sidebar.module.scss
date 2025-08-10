@@ -1,50 +1,62 @@
-// Biến màu và kích thước
-$bg-color: #f0fdf4;
-$hover-bg-color: #e9fbec;
-$active-dark-bg-color: #166534; // Màu xanh đậm cho trạng thái active
+// Biến màu
+$bg-color: #fafffa;
+$hover-bg-color: #f0fdf4;
+$active-bg-color: #dcfce7;
+$active-dark-bg-color: #166534;
 $text-color: #3f3f46;
 $icon-color: #52525b;
+$border-color: #e5e7eb;
 $sidebar-width: 280px;
 
 .wrapper {
   background-color: $bg-color;
   width: $sidebar-width;
   height: 100vh;
-  padding: 16px;
+  padding: 16px 8px;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #e5e7eb;
+  border-right: 1px solid $border-color;
+  font-family: "Comfortaa", sans-serif;
   box-sizing: border-box;
-}
-
-.main-content {
-  flex-grow: 1;
-  font-family: 'Comfortaa', sans-serif;
 }
 
 // User Menu
 .user-menu {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px;
-  border-bottom: 1px solid #e5e7eb;
-  margin-bottom: 16px;
-}
-
-.user-info {
-  display: flex;
   align-items: center;
   gap: 8px;
-  font-weight: 600;
+  padding: 8px;
+  margin-bottom: 16px;
+  font-weight: 500;
+  border-radius: 6px;
   cursor: pointer;
+
+  &:hover {
+    background-color: $hover-bg-color;
+  }
 }
 
 .user-avatar {
-  background-color: #d1d5db;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  padding: 6px;
+  background-color: #d1d5db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 14px;
+  color: white;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.user-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-info span {
+  flex-grow: 1;
 }
 
 .arrow-icon {
@@ -53,16 +65,9 @@ $sidebar-width: 280px;
 
 .user-actions {
   display: flex;
-  align-items: center;
   gap: 16px;
   color: $icon-color;
-  cursor: pointer;
-}
-
-.notification-trigger {
-  position: relative;
-  display: flex;
-  align-items: center;
+  margin-left: auto; // Đẩy về cuối
 }
 
 // Navigation lists
@@ -79,22 +84,18 @@ $sidebar-width: 280px;
   border-radius: 6px;
   cursor: pointer;
   color: $text-color;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease;
   font-weight: 500;
-  margin-bottom: 4px;
   text-decoration: none;
+  margin-bottom: 2px;
 
   &:hover {
     background-color: $hover-bg-color;
   }
 
-  // --- PHẦN CẬP NHẬT CHÍNH ---
   &.active {
-    background-color: $active-dark-bg-color; // Đổi thành màu xanh đậm
-    color: #fff; // Chữ chuyển thành màu trắng
-    font-weight: 600;
-
-    // Icon cũng đổi màu trắng để nổi bật trên nền đậm
+    background-color: $active-dark-bg-color;
+    color: #fff;
     .icon {
       color: #fff;
     }
@@ -109,11 +110,7 @@ $sidebar-width: 280px;
   font-size: 16px;
 }
 
-// Sections (Projects, Teams)
-.section {
-  margin-bottom: 16px;
-}
-
+// Projects Section
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -131,26 +128,30 @@ $sidebar-width: 280px;
   cursor: pointer;
 }
 
+.project-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 .project-item {
-  padding-left: 12px;
-  font-weight: 400;
-}
-
-.project-color-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin-right: 8px;
-  flex-shrink: 0;
-}
-
-// Help Section
-.help-section {
-  margin-top: auto;
   display: flex;
   align-items: center;
-  padding: 8px 12px;
+  padding: 6px 12px;
+  border-radius: 6px;
   cursor: pointer;
   color: $text-color;
-  font-weight: 500;
+  transition: background-color 0.2s ease;
+  font-weight: 400;
+  font-size: 14px;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $hover-bg-color;
+  }
+
+  &.active {
+    background-color: $active-bg-color;
+    font-weight: 500;
+  }
 }
