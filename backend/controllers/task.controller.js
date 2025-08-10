@@ -82,8 +82,20 @@ exports.getTasksByProject = async (req, res) => {
             projectId: projectId,
             ownerId: req.user.id
         }).sort({ createdAt: -1 });
-        res.status(200).json(tasks);
+            res.status(200).json(tasks);
     } catch (error) {
         res.status(500).json({ message: 'Lỗi server khi lấy tasks của dự án' });
+    }
+};
+exports.getCompletedTasks = async (req, res) => {
+    try {
+        const completedTasks = await Task.find({
+            ownerId: req.user.id,
+            completed: true // Chỉ lấy các task có trường completed là true
+        }).sort({ updatedAt: -1 }); // Sắp xếp theo ngày hoàn thành gần nhất
+
+        res.status(200).json(completedTasks);
+    } catch (error) {
+        res.status(500).json({ message: 'Lỗi server khi lấy tasks đã hoàn thành' });
     }
 };

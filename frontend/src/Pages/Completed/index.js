@@ -1,47 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import classNames from 'classnames/bind';
-import axios from 'axios';
-
-import styles from './Completed.module.scss';
+import styles from './Completed.module.scss'; // Sửa tên file import
 import TaskList from '../../compoments/store/TaskList';
+import { useCompletedTasks } from '../../hooks/useCompletedTasks';
 
 const cx = classNames.bind(styles);
-const API_BASE_URL = process.env.REACT_APP_API_URL;
 
+// Sửa tên component thành "Completed"
 function Completed() {
-    const [completedTasks, setCompletedTasks] = useState([]);
-
-    useEffect(() => {
-        const fetchCompletedTasks = async () => {
-            try {
-                const response = await axios.get(`${API_BASE_URL}/completed`);
-                setCompletedTasks(response.data);
-            } catch (error) {
-                console.error("Lỗi khi lấy dữ liệu tasks đã hoàn thành:", error);
-            }
-        };
-        fetchCompletedTasks();
-    }, []);
-
-    const handleToggleTask = async (taskId) => {
-        // Logic này sẽ "hoàn tác" một task, chuyển nó về chưa hoàn thành
-        try {
-            await axios.patch(`${API_BASE_URL}/${taskId}/toggle`);
-            // Xóa task khỏi danh sách đã hoàn thành trên UI
-            setCompletedTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
-        } catch (error) {
-            console.error('Lỗi khi cập nhật trạng thái task:', error);
-        }
-    };
-
-    const handleDeleteTask = async (taskId) => {
-        try {
-            await axios.delete(`${API_BASE_URL}/${taskId}`);
-            setCompletedTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
-        } catch (error) {
-            console.error('Lỗi khi xóa task:', error);
-        }
-    };
+    const { tasks, toggleTask, deleteTask } = useCompletedTasks();
 
     return (
         <main className={cx('wrapper')}>
@@ -50,14 +17,19 @@ function Completed() {
             </header>
 
             <div className={cx('task-container')}>
-                <TaskList
-                    tasks={completedTasks}
-                    onToggle={handleToggleTask}
-                    onDelete={handleDeleteTask}
-                />
+                {tasks && tasks.length > 0 ? (
+                    <TaskList
+                        tasks={tasks}
+                        onToggle={toggleTask}
+                        onDelete={deleteTask}
+                    />
+                ) : (
+                    <p className={cx('empty-message')}>Chưa có công việc nào được hoàn thành.</p>
+                )}
             </div>
         </main>
     );
 }
 
+// Sửa tên export
 export default Completed;
