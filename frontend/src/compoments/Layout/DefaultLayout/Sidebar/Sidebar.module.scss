@@ -2,7 +2,7 @@
 $bg-color: #fafffa;
 $hover-bg-color: #f0fdf4;
 $active-bg-color: #dcfce7;
-$active-dark-bg-color: #166534;
+$active-dark-bg-color: #C2FCBF;
 $text-color: #3f3f46;
 $icon-color: #52525b;
 $border-color: #e5e7eb;
@@ -95,9 +95,9 @@ $sidebar-width: 280px;
 
   &.active {
     background-color: $active-dark-bg-color;
-    color: #fff;
+    color: #000000;
     .icon {
-      color: #fff;
+      color: #000000;
     }
   }
 }

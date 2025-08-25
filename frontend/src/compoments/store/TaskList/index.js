@@ -1,48 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
-import { Circle, CheckCircle, Calendar } from 'lucide-react';
-import { format, isToday, isPast, parseISO } from 'date-fns';
-import vi from 'date-fns/locale/vi';
+import {
+    Circle,
+    CheckCircle,
+    Calendar,
+    MoreHorizontal,
+    Trash2
+} from 'lucide-react';
 import styles from './TaskList.module.scss';
+import { format, isToday, isPast, parseISO } from 'date-fns';
 
 const cx = classNames.bind(styles);
 
-// 1. Tách hàm helper ra ngoài component
-const formatDueDate = (dueDate) => {
-    if (!dueDate) return null;
-    const parsedDate = typeof dueDate === 'string' ? parseISO(dueDate) : new Date(dueDate);
+const formatDueDateInfo = (dateString) => {
+    if (!dateString) return null;
+    const date = new Date(dateString);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const dateToCompare = new Date(dateString);
+    dateToCompare.setHours(0, 0, 0, 0);
 
-    if (isToday(parsedDate)) {
-        return {
-            text: `Hôm nay, ${format(parsedDate, 'HH:mm', { locale: vi })}`,
-            statusClass: 'today'
-        };
-    } else if (isPast(parsedDate) && !isToday(parsedDate)) { // Chính xác hơn
-        return {
-            text: `Quá hạn: ${format(parsedDate, 'dd/MM/yyyy HH:mm', { locale: vi })}`,
-            statusClass: 'overdue'
-        };
-    } else {
-        return {
-            text: format(parsedDate, 'EEEE, dd/MM/yyyy HH:mm', { locale: vi }),
-            statusClass: 'upcoming'
-        };
+    let dateText = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    let statusClass = 'default';
+
+    if (dateToCompare < today) {
+        statusClass = 'overdue';
+    } else if (dateToCompare.getTime() === today.getTime()) {
+        dateText = 'Today';
+        statusClass = 'today';
     }
+
+    return { text: dateText, statusClass: statusClass };
 };
 
-function TaskList({ tasks, onDelete, onToggle }) {
-    // 2. Thêm điều kiện bảo vệ
+function TaskList({ tasks, onToggle, onDelete }) {
+    const [hoveredTaskId, setHoveredTaskId] = useState(null);
+
     if (!tasks) {
-        return null; // Không render gì cả nếu tasks không tồn tại
+        return null;
     }
 
     return (
         <div className={cx('task-list')}>
             {tasks.map((task) => {
-                const dueInfo = formatDueDate(task.dueDate);
+                const dueDateInfo = formatDueDateInfo(task.dueDate);
+                const showActions = hoveredTaskId === task._id;
 
                 return (
-                    <div key={task._id} className={cx('task-item', { completed: task.completed })}>
+                    <div
+                        key={task._id}
+                        className={cx('task-item', { completed: task.completed })}
+                        onMouseEnter={() => setHoveredTaskId(task._id)}
+                        onMouseLeave={() => setHoveredTaskId(null)}
+                    >
                         <button
                             className={cx('task-checkbox')}
                             onClick={() => onToggle(task._id)}
@@ -54,25 +64,22 @@ function TaskList({ tasks, onDelete, onToggle }) {
                         </button>
 
                         <div className={cx('task-content')}>
-                            <h5 className={cx('task-title')}>{task.title}</h5>
-                            {task.description && (
-                                <p className={cx('task-desc')}>{task.description}</p>
-                            )}
-                            {dueInfo && (
+                            <p className={cx('task-title')}>{task.title}</p>
+                            {task.description && <p className={cx('task-description')}>{task.description}</p>}
+                            {dueDateInfo && (
                                 <div className={cx('task-details')}>
-                                    <span className={cx('due-date', dueInfo.statusClass)}>
-                                        <Calendar size={14} className={cx('calendar-icon')} />
-                                        {dueInfo.text}
+                                    <span className={cx('due-date', dueDateInfo.statusClass)}>
+                                        <Calendar size={14} />
+                                        {dueDateInfo.text}
                                     </span>
                                 </div>
                             )}
                         </div>
-                        <button
-                            className={cx('delete-btn')}
-                            onClick={() => onDelete(task._id)}
-                        >
-                            Xóa
-                        </button>
+
+                        <div className={cx('task-actions', { visible: showActions })}>
+                            <button className={cx('action-btn')}><MoreHorizontal size={16} /></button>
+                            <button className={cx('action-btn')} onClick={() => onDelete(task._id)}><Trash2 size={16} /></button>
+                        </div>
                     </div>
                 );
             })}

@@ -6,12 +6,11 @@ import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
 
 function DefaultLayout({ children }) {
+    // Chỉ cần một thẻ div bao ngoài
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('container')}>
-                <Sidebar />
-                <div className={cx('content')}>{children}</div>
-            </div>
+            <Sidebar />
+            <main className={cx('content')}>{children}</main>
         </div>
     );
 }

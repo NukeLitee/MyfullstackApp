@@ -1,5 +1,4 @@
 .task-list {
-  margin-top: 24px;
   font-family: sans-serif;
 }
 
@@ -9,19 +8,20 @@
   padding: 12px 8px;
   border-bottom: 1px solid #f0f0f0;
   gap: 12px;
-
-  &.completed {
-    .task-title, .task-desc {
-      text-decoration: line-through;
-      color: #aaa;
-    }
-  }
+  position: relative;
 
   &:hover {
     background-color: #fafafa;
-    .delete-btn {
+    .task-actions {
       opacity: 1;
       visibility: visible;
+    }
+  }
+
+  &.completed {
+    .task-title, .task-description {
+      text-decoration: line-through;
+      color: #aaa;
     }
   }
 }
@@ -33,6 +33,11 @@
   cursor: pointer;
   margin-top: 2px;
   color: #888;
+
+  &:hover {
+    background-color: #f0f0f0;
+    border-radius: 50%;
+  }
 }
 
 .check-icon.completed {
@@ -44,20 +49,21 @@
 }
 
 .task-title {
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 14px;
   color: #333;
-  margin: 0 0 4px 0;
+  margin: 0;
+  line-height: 1.4;
 }
 
-.task-desc {
-  font-size: 14px;
-  color: #6b7280;
-  margin: 0;
+.task-description {
+  font-size: 12px;
+  color: #888;
+  margin: 4px 0 0 0;
+  line-height: 1.4;
 }
 
 .task-details {
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .due-date {
@@ -66,26 +72,30 @@
   gap: 6px;
   font-size: 12px;
   font-weight: 500;
+  color: #555;
 
-  &.today { color: #22c55e; }
   &.overdue { color: #dc4c3e; }
-  &.upcoming { color: #555; }
+  &.today { color: #22c55e; }
 }
 
-.delete-btn {
-  background-color: #fee2e2;
-  color: #ef4444;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  white-space: nowrap;
+.task-actions {
+  display: flex;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s ease, visibility 0.2s ease;
+  background-color: #fafafa;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #888;
+  border-radius: 4px;
 
   &:hover {
-    background-color: #fecaca;
+    color: #333;
+    background-color: #e5e5e5;
   }
 }

@@ -1,8 +1,13 @@
-.container {
-  display: flex;
+.wrapper {
+  display: flex; // Đặt flexbox ở đây
+  height: 100vh;
+  overflow: hidden; // Ngăn cả trang cuộn
 }
+
+// Sidebar sẽ có width cố định (từ file css của nó)
+
 .content {
-  flex: 1;
+  flex: 1; // Chiếm hết không gian còn lại
   background-color: #fff;
-  min-height: 1000px;
+  overflow-y: auto; // Chỉ khu vực này được phép cuộn
 }
