@@ -38,7 +38,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
+app.use('/api/notifications', require('./routes/notification.routes'));
 // Khởi động server
 app.listen(PORT, () => {
     console.log(`Server đang chạy trên cổng ${PORT}`);

@@ -1,18 +1,20 @@
 import { useState, useEffect } from 'react';
-import projectService from '../services/projectService';
-import api from '../services/api';
+import projectService from '../services/projectService'; // Import service
+
 export const useProjects = () => {
     const [projects, setProjects] = useState([]);
 
     useEffect(() => {
-        api.get('/projects')
+        // ✅ SỬA LẠI: Gọi qua projectService thay vì api client trực tiếp
+        projectService.getAllProjects()
             .then(response => setProjects(response.data))
             .catch(error => console.error("Lỗi khi lấy projects:", error));
     }, []);
 
     const addProject = async (projectData) => {
         try {
-            const response = await api.post('/projects', projectData);
+            // ✅ SỬA LẠI: Gọi qua projectService
+            const response = await projectService.createProject(projectData);
             setProjects(prevProjects => [...prevProjects, response.data]);
             return true;
         } catch (error) {
@@ -20,8 +22,10 @@ export const useProjects = () => {
             return false;
         }
     };
+
     const deleteProject = async (projectId) => {
         try {
+            // Dòng này đã đúng vì nó đang dùng projectService
             await projectService.deleteProject(projectId);
             setProjects(prevProjects => prevProjects.filter(p => p._id !== projectId));
             return true;

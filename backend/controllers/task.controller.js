@@ -18,16 +18,29 @@ exports.createTask = async (req, res) => {
     try {
         const { title, description, dueDate, priority, projectId } = req.body;
         const newTask = new Task({
-            title, description, dueDate, projectId,
+            title,
+            description,
+            dueDate,
+            projectId,
             priority: priority ? priority.level : 4,
             ownerId: req.user.id
         });
         const savedTask = await newTask.save();
+
+        // Tạo thông báo
+        const notification = new Notification({
+            ownerId: req.user.id,
+            message: `Bạn vừa tạo công việc mới: "${savedTask.title}"`
+        });
+        await notification.save();
+
         res.status(201).json(savedTask);
     } catch (error) {
+        console.error('Lỗi khi tạo task:', error);
         res.status(500).json({ message: 'Lỗi server khi tạo task' });
     }
 };
+
 
 // Xóa task
 exports.deleteTask = async (req, res) => {
@@ -37,6 +50,14 @@ exports.deleteTask = async (req, res) => {
         if (!task) {
             return res.status(404).json({ message: 'Không tìm thấy công việc hoặc bạn không có quyền xóa.' });
         }
+
+        // Tạo thông báo
+        const notification = new Notification({
+            ownerId: req.user.id,
+            message: `Bạn đã xóa công việc: "${task.title}"`
+        });
+        await notification.save();
+
         res.json({ message: 'Đã xóa task' });
     } catch (error) {
         res.status(500).json({ message: 'Lỗi khi xóa task' });

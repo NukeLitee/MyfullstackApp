@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import taskService from '../services/taskService';
+import { useNotifications } from '../context/NotificationContext';
 
 export const useTasks = () => {
     const [tasks, setTasks] = useState([]);
+    const { fetchNotifications } = useNotifications();
 
     useEffect(() => {
         taskService.getAllTasks()
@@ -14,6 +16,7 @@ export const useTasks = () => {
         try {
             const response = await taskService.createTask(taskData);
             setTasks(prevTasks => [response.data, ...prevTasks]);
+            fetchNotifications();
             return true; // Báo hiệu thành công
         } catch (error) {
             console.error("Lỗi khi tạo task:", error);
@@ -25,6 +28,7 @@ export const useTasks = () => {
         try {
             await taskService.deleteTask(taskId);
             setTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
+            fetchNotifications();
         } catch (error) {
             console.error("Lỗi khi xóa task:", error);
         }
