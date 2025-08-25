@@ -7,7 +7,7 @@ router.use(authMiddleware);
 
 router.get('/', taskController.getAllTasks);
 router.post('/', taskController.createTask);
-router.get('/upcomingpage', taskController.getUpcomingTasks);
+router.get('/upcoming', taskController.getUpcomingTasks);
 router.get('/completed', taskController.getCompletedTasks);
 router.get('/project/:projectId', taskController.getTasksByProject);
 router.delete('/:id', taskController.deleteTask);
