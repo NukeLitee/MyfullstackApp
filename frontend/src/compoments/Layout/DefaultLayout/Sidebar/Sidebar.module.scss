@@ -176,3 +176,65 @@ $sidebar-width: 280px;
   display: flex;
   align-items: center;
 }
+.delete-project-btn{
+  background: none;
+  border: none;
+  &.hover{
+    color: white;
+  }
+}
+.project-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+// Thêm class mới cho thẻ <li>
+.project-list-item {
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: $hover-bg-color;
+    .delete-project-btn {
+      opacity: 1;
+    }
+  }
+}
+
+// Sửa lại style cho link
+.project-item-link {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: $text-color;
+  font-weight: 400;
+  font-size: 14px;
+  text-decoration: none;
+  flex-grow: 1; // Quan trọng: Cho phép link chiếm hết không gian còn lại
+
+  &.active {
+    background-color: $active-bg-color;
+    font-weight: 500;
+  }
+}
+
+// Sửa lại style cho nút xóa
+.delete-project-btn {
+  background: none;
+  border: none;
+  color: #000;
+  cursor: pointer;
+  opacity: 1; // Ẩn nút mặc định
+  transition: opacity 0.2s ease;
+  padding: 8px;
+  margin-right: 4px;
+  flex-shrink: 0; // Ngăn nút bị co lại
+
+  &:hover {
+    color: #dc4c3e;
+  }
+}

@@ -124,19 +124,17 @@ function Sidebar() {
                         </div>
                         <ul className={cx('project-list')}>
                             {projects.map(project => (
-                                <li key={project._id}>
+                                <li key={project._id} className={cx('project-list-item')}>
                                     <NavLink
                                         to={`/project/${project._id}`}
-                                        className={({ isActive }) => cx('project-item', { active: isActive })}
+                                        className={({ isActive }) => cx('project-item-link', { active: isActive })}
                                     >
-                                        <div className={cx('project-info')}>
-                                            <FontAwesomeIcon icon={faHashtag} className={cx('icon')} />
-                                            <span>{project.name}</span>
-                                        </div>
-                                        <button className={cx('delete-project-btn')} onClick={(e) => handleDeleteProject(e, project._id)}>
-                                            <FontAwesomeIcon icon={faTrash} />
-                                        </button>
+                                        <FontAwesomeIcon icon={faHashtag} className={cx('icon')} />
+                                        <span>{project.name}</span>
                                     </NavLink>
+                                    <button className={cx('delete-project-btn')} onClick={(e) => handleDeleteProject(e, project._id)}>
+                                        <FontAwesomeIcon icon={faTrash} />
+                                    </button>
                                 </li>
                             ))}
                         </ul>
